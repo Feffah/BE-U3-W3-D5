@@ -15,7 +15,7 @@ namespace BE_U3_W3_D5.Services
         }
         public async Task<Biglietto?> GetBigliettoById(int id)
         {
-            return await _context.Biglietti.AsNoTracking().FirstOrDefaultAsync(b => b.BigliettoId == id);
+            return await _context.Biglietti.AsNoTracking().FirstOrDefaultAsync(b => b.IdBiglietto == id);
         }
         public async Task<Biglietto> CreateBiglietto(Biglietto biglietto)
         {
@@ -31,7 +31,6 @@ namespace BE_U3_W3_D5.Services
                 return null;
             }
             biglietto.EventoId = updatedBiglietto.EventoId;
-            biglietto.Price = updatedBiglietto.Price;
             biglietto.DataAcquisto = updatedBiglietto.DataAcquisto;
             await _context.SaveChangesAsync();
             return biglietto;

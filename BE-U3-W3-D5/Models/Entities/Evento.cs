@@ -23,6 +23,6 @@ namespace BE_U3_W3_D5.Models.Entities
         public Artista Artista { get; set; }
         public int ArtistaId { get; set; }
 
-        public ICollection<Biglietto> Biglietti { get; set; }
+        public ICollection<Biglietto> Biglietti { get; set; } = new List<Biglietto>();
     }
 }

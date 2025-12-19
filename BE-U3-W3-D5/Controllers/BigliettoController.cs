@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BE_U3_W3_D5.Models.Dto;
+using BE_U3_W3_D5.Models.Entities;
+using BE_U3_W3_D5.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BE_U3_W3_D5.Controllers
@@ -7,38 +11,60 @@ namespace BE_U3_W3_D5.Controllers
     [ApiController]
     public class BigliettoController : ControllerBase
     {
+        private readonly BigliettoService _bigliettoService;
+
+        public BigliettoController(BigliettoService bigliettoService)
+        {
+            _bigliettoService = bigliettoService;
+        }
+
+        [Authorize]
         [HttpGet("tickets")]
-        public IActionResult GetTickets()
+        public async Task<IActionResult> GetTickets()
         {
-            // Placeholder implementation
-            return Ok(new[] { "Ticket 1", "Ticket 2", "Ticket 3" });
+            return Ok(await _bigliettoService.GetAllBiglietti());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("ticket/{id}")]
-        public IActionResult GetTicketById(int id)
+        public async Task<IActionResult> GetTicketById(int id)
         {
-            // Placeholder implementation
-            return Ok($"Ticket {id}");
+            return Ok(await _bigliettoService.GetBigliettoById(id));
         }
-
+        [Authorize(Roles = "Admin,User")]
         [HttpPost("ticket")]
-        public IActionResult CreateTicket([FromBody] string ticketInfo)
+        public async Task<IActionResult> CreateTicket([FromBody] CreateBigliettoDto ticketDto)
         {
-            // Placeholder implementation
-            return CreatedAtAction(nameof(GetTicketById), new { id = 1 }, ticketInfo);
+            var ticket = new Biglietto
+            {
+                EventoId = ticketDto.EventoId,
+                ArtistaId = ticketDto.ArtistaId,
+                UserId = ticketDto.UserId,
+                DataAcquisto = ticketDto.DataAcquisto
+            };
+            return Ok(await _bigliettoService.CreateBiglietto(ticket)) ;
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpPut("ticket/{id}")]
-        public IActionResult UpdateTicket(int id, [FromBody] string ticketInfo)
+        public async Task<IActionResult> UpdateTicket(int id, [FromBody] CreateBigliettoDto ticketDto)
         {
-            // Placeholder implementation
-            return NoContent();
+            var ticket = new Biglietto
+            {
+                EventoId = ticketDto.EventoId,
+                ArtistaId = ticketDto.ArtistaId,
+                UserId = ticketDto.UserId,
+                DataAcquisto = ticketDto.DataAcquisto
+            };
+            return Ok(await _bigliettoService.UpdateBiglietto(id, ticket));
         }
 
         [HttpDelete("ticket/{id}")]
-        public IActionResult DeleteTicket(int id)
+        public async Task<IActionResult> DeleteTicket(int id)
         {
-            // Placeholder implementation
+            var deleted = await _bigliettoService.DeleteBiglietto(id);
+            if (!deleted)
+                return NotFound();
             return NoContent();
         }
     }

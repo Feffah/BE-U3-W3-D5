@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BE_U3_W3_D5.Models.Dto;
+using BE_U3_W3_D5.Models.Entities;
+using BE_U3_W3_D5.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BE_U3_W3_D5.Controllers
@@ -7,34 +11,60 @@ namespace BE_U3_W3_D5.Controllers
     [ApiController]
     public class EventoController : ControllerBase
     {
-        [HttpGet("events")]
-        public IActionResult GetEvents()
+        private readonly EventoService _eventoService;
+        public EventoController(EventoService eventoService)
         {
-            // Placeholder implementation
-            return Ok(new[] { "Event 1", "Event 2", "Event 3" });
+            _eventoService = eventoService;
+        }
+
+        [HttpGet("events")]
+        public async Task<IActionResult> GetEvents()
+        {
+
+            return Ok(await _eventoService.GetAllEventi());
         }
         [HttpGet("event/{id}")]
-        public IActionResult GetEventById(int id)
+        public async Task<IActionResult> GetEventById(int id)
         {
-            // Placeholder implementation
-            return Ok($"Event {id}");
+            return Ok(await _eventoService.GetEventoById(id));
         }
+
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("event")]
-        public IActionResult CreateEvent([FromBody] string eventInfo)
+        public async Task<IActionResult> CreateEvent([FromBody] CreateEventoDto eventoDto)
         {
-            // Placeholder implementation
-            return CreatedAtAction(nameof(GetEventById), new { id = 1 }, eventInfo);
+            var evento = new Evento
+            {
+                Titolo = eventoDto.Titolo,
+                Data = eventoDto.Data,
+                Luogo = eventoDto.Luogo,
+                ArtistaId = eventoDto.ArtistaId
+            };
+            return Ok(await _eventoService.CreateEvento(evento));
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("event/{id}")]
-        public IActionResult UpdateEvent(int id, [FromBody] string eventInfo)
+        public async Task<IActionResult> UpdateEvent(int id, [FromBody] CreateEventoDto eventoDto)
         {
-            // Placeholder implementation
-            return NoContent();
+            var evento = new Evento
+            {
+                Titolo = eventoDto.Titolo,
+                Data = eventoDto.Data,
+                Luogo = eventoDto.Luogo,
+                ArtistaId = eventoDto.ArtistaId
+            };
+            return Ok(await _eventoService.UpdateEvento(id, evento));
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("event/{id}")]
         public IActionResult DeleteEvent(int id)
         {
-            // Placeholder implementation
+            var deleted =  _eventoService.DeleteEvento(id);
+            if (!deleted.Result)
+                return NotFound();
             return NoContent();
         }
     }

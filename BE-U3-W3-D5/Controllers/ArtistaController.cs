@@ -1,7 +1,9 @@
 ﻿using BE_U3_W3_D5.Models.Entities;
+using BE_U3_W3_D5.Models.Dto;
 using BE_U3_W3_D5.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BE_U3_W3_D5.Controllers
 {
@@ -18,30 +20,42 @@ namespace BE_U3_W3_D5.Controllers
         [HttpGet("artists")]
         public async Task<IActionResult> GetArtists()
         {
-            // Placeholder implementation
             return Ok(await _artistaService.GetAllArtisti()) ;
         }
 
         [HttpGet("artist/{id}")]
         public async Task<IActionResult> GetArtistById(int id)
         {
-            // Placeholder implementation
             return Ok(await _artistaService.GetArtistaById(id));
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPost("artist")]
-        public async Task<IActionResult> CreateArtist([FromBody] Artista artist)
+        public async Task<IActionResult> CreateArtist([FromBody] CreateArtistaDto artistDto)
         {
-            // Placeholder implementation
+            var artist = new Artista
+            {
+                Nome = artistDto.Nome,
+                Genere = artistDto.Genere,
+                Biografia = artistDto.Biografia
+            };
             return Ok(await _artistaService.CreateArtista(artist));
         }
-            [HttpPut("artist/{id}")]
-            public async Task<IActionResult> UpdateArtist(int id, [FromBody] Artista artist)
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("artist/{id}")]
+            public async Task<IActionResult> UpdateArtist(int id, [FromBody] CreateArtistaDto artistDto)
         {
-            // Placeholder implementation
+            var artist = new Artista
+            {
+                Nome = artistDto.Nome,
+                Genere = artistDto.Genere,
+                Biografia = artistDto.Biografia
+            };
             return Ok(await _artistaService.UpdateArtista(id, artist));
            }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("artist/{id}")]
         public async Task<IActionResult> DeleteArtist(int id)
         {

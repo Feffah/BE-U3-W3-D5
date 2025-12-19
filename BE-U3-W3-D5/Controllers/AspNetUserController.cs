@@ -70,7 +70,7 @@ namespace BE_U3_W3_D5.Controllers
                         {
                             await this._roleManager.CreateAsync(role);
                         }
-                        await this._userManager.AddToRoleAsync(user, "User");
+                        await this._userManager.AddToRoleAsync(user,role.Name);
                         return Ok();
                     }
                 }
@@ -106,7 +106,7 @@ namespace BE_U3_W3_D5.Controllers
                 List<Claim> userClaims = new List<Claim>();
                 foreach (string roleName in roles)
                 {
-                    userClaims.Add(new Claim(ClaimTypes.Role, roleName));
+                    userClaims.Add(new Claim("role", roleName));
 
                 }
 

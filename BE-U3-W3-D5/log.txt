@@ -1,0 +1,1646 @@
+2025-12-19 18:31:11.471 +01:00 [INF] Starting Application
+2025-12-19 18:31:11.480 +01:00 [INF] Registering Services
+2025-12-19 18:32:17.393 +01:00 [INF] Starting Application
+2025-12-19 18:32:17.401 +01:00 [INF] Registering Services
+2025-12-19 18:33:14.944 +01:00 [INF] Starting Application
+2025-12-19 18:33:14.952 +01:00 [INF] Registering Services
+2025-12-19 18:33:33.048 +01:00 [INF] Starting Application
+2025-12-19 18:33:33.056 +01:00 [INF] Registering Services
+2025-12-19 18:33:34.876 +01:00 [INF] Executed DbCommand (227ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+CREATE DATABASE [TicketsAPI];
+2025-12-19 18:33:35.011 +01:00 [INF] Executed DbCommand (133ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+IF SERVERPROPERTY('EngineEdition') <> 5
+BEGIN
+    ALTER DATABASE [TicketsAPI] SET READ_COMMITTED_SNAPSHOT ON;
+END;
+2025-12-19 18:33:35.030 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-12-19 18:33:35.076 +01:00 [INF] Executed DbCommand (18ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [__EFMigrationsHistory] (
+    [MigrationId] nvarchar(150) NOT NULL,
+    [ProductVersion] nvarchar(32) NOT NULL,
+    CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+);
+2025-12-19 18:33:35.077 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-12-19 18:33:35.086 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-12-19 18:33:35.101 +01:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-12-19 18:33:35.109 +01:00 [INF] Applying migration '20251219173317_Init Db'.
+2025-12-19 18:33:35.141 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Artisti] (
+    [ArtistaId] int NOT NULL IDENTITY,
+    [Nome] nvarchar(max) NOT NULL,
+    [Genere] nvarchar(max) NOT NULL,
+    [Biografia] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_Artisti] PRIMARY KEY ([ArtistaId])
+);
+2025-12-19 18:33:35.145 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoles] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(256) NULL,
+    [NormalizedName] nvarchar(256) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+);
+2025-12-19 18:33:35.149 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUsers] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(max) NOT NULL,
+    [Surname] nvarchar(max) NOT NULL,
+    [CreateAt] datetime2 NOT NULL,
+    [IsDeleted] bit NOT NULL,
+    [Birthday] datetime2 NOT NULL,
+    [UserName] nvarchar(256) NULL,
+    [NormalizedUserName] nvarchar(256) NULL,
+    [Email] nvarchar(256) NULL,
+    [NormalizedEmail] nvarchar(256) NULL,
+    [EmailConfirmed] bit NOT NULL,
+    [PasswordHash] nvarchar(max) NULL,
+    [SecurityStamp] nvarchar(max) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    [PhoneNumber] nvarchar(max) NULL,
+    [PhoneNumberConfirmed] bit NOT NULL,
+    [TwoFactorEnabled] bit NOT NULL,
+    [LockoutEnd] datetimeoffset NULL,
+    [LockoutEnabled] bit NOT NULL,
+    [AccessFailedCount] int NOT NULL,
+    CONSTRAINT [PK_AspNetUsers] PRIMARY KEY ([Id])
+);
+2025-12-19 18:33:35.153 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Eventi] (
+    [EventoId] int NOT NULL IDENTITY,
+    [Titolo] nvarchar(max) NOT NULL,
+    [Data] datetime2 NOT NULL,
+    [Luogo] nvarchar(max) NOT NULL,
+    [ArtistaId] int NOT NULL,
+    CONSTRAINT [PK_Eventi] PRIMARY KEY ([EventoId]),
+    CONSTRAINT [FK_Eventi_Artisti_ArtistaId] FOREIGN KEY ([ArtistaId]) REFERENCES [Artisti] ([ArtistaId]) ON DELETE CASCADE
+);
+2025-12-19 18:33:35.157 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoleClaims] (
+    [Id] int NOT NULL IDENTITY,
+    [RoleId] nvarchar(450) NOT NULL,
+    [ClaimType] nvarchar(max) NULL,
+    [ClaimValue] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoleClaims] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:33:35.161 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserClaims] (
+    [Id] int NOT NULL IDENTITY,
+    [UserId] nvarchar(450) NOT NULL,
+    [ClaimType] nvarchar(max) NULL,
+    [ClaimValue] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetUserClaims] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:33:35.166 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserLogins] (
+    [LoginProvider] nvarchar(450) NOT NULL,
+    [ProviderKey] nvarchar(450) NOT NULL,
+    [ProviderDisplayName] nvarchar(max) NULL,
+    [UserId] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_AspNetUserLogins] PRIMARY KEY ([LoginProvider], [ProviderKey]),
+    CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:33:35.171 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserRoles] (
+    [UserId] nvarchar(450) NOT NULL,
+    [RoleId] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY ([UserId], [RoleId]),
+    CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:33:35.175 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserTokens] (
+    [UserId] nvarchar(450) NOT NULL,
+    [LoginProvider] nvarchar(450) NOT NULL,
+    [Name] nvarchar(450) NOT NULL,
+    [Value] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetUserTokens] PRIMARY KEY ([UserId], [LoginProvider], [Name]),
+    CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:33:35.200 +01:00 [ERR] Failed executing DbCommand (24ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Biglietti] (
+    [IdBiglietto] int NOT NULL IDENTITY,
+    [EventoId] int NOT NULL,
+    [ArtistaId] int NOT NULL,
+    [UserId] nvarchar(450) NOT NULL,
+    [DataAcquisto] datetime2 NOT NULL,
+    CONSTRAINT [PK_Biglietti] PRIMARY KEY ([IdBiglietto]),
+    CONSTRAINT [FK_Biglietti_Artisti_ArtistaId] FOREIGN KEY ([ArtistaId]) REFERENCES [Artisti] ([ArtistaId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Biglietti_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Biglietti_Eventi_EventoId] FOREIGN KEY ([EventoId]) REFERENCES [Eventi] ([EventoId]) ON DELETE CASCADE
+);
+2025-12-19 18:37:11.185 +01:00 [INF] Starting Application
+2025-12-19 18:37:11.194 +01:00 [INF] Registering Services
+2025-12-19 18:37:19.343 +01:00 [INF] Starting Application
+2025-12-19 18:37:19.352 +01:00 [INF] Registering Services
+2025-12-19 18:37:20.018 +01:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-12-19 18:37:20.034 +01:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-12-19 18:37:20.036 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-12-19 18:37:20.037 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-12-19 18:37:20.053 +01:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-12-19 18:37:20.062 +01:00 [INF] Applying migration '20251219173317_Init Db'.
+2025-12-19 18:37:20.106 +01:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Artisti] (
+    [ArtistaId] int NOT NULL IDENTITY,
+    [Nome] nvarchar(max) NOT NULL,
+    [Genere] nvarchar(max) NOT NULL,
+    [Biografia] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_Artisti] PRIMARY KEY ([ArtistaId])
+);
+2025-12-19 18:37:20.108 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoles] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(256) NULL,
+    [NormalizedName] nvarchar(256) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+);
+2025-12-19 18:37:20.113 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUsers] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(max) NOT NULL,
+    [Surname] nvarchar(max) NOT NULL,
+    [CreateAt] datetime2 NOT NULL,
+    [IsDeleted] bit NOT NULL,
+    [Birthday] datetime2 NOT NULL,
+    [UserName] nvarchar(256) NULL,
+    [NormalizedUserName] nvarchar(256) NULL,
+    [Email] nvarchar(256) NULL,
+    [NormalizedEmail] nvarchar(256) NULL,
+    [EmailConfirmed] bit NOT NULL,
+    [PasswordHash] nvarchar(max) NULL,
+    [SecurityStamp] nvarchar(max) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    [PhoneNumber] nvarchar(max) NULL,
+    [PhoneNumberConfirmed] bit NOT NULL,
+    [TwoFactorEnabled] bit NOT NULL,
+    [LockoutEnd] datetimeoffset NULL,
+    [LockoutEnabled] bit NOT NULL,
+    [AccessFailedCount] int NOT NULL,
+    CONSTRAINT [PK_AspNetUsers] PRIMARY KEY ([Id])
+);
+2025-12-19 18:37:20.118 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Eventi] (
+    [EventoId] int NOT NULL IDENTITY,
+    [Titolo] nvarchar(max) NOT NULL,
+    [Data] datetime2 NOT NULL,
+    [Luogo] nvarchar(max) NOT NULL,
+    [ArtistaId] int NOT NULL,
+    CONSTRAINT [PK_Eventi] PRIMARY KEY ([EventoId]),
+    CONSTRAINT [FK_Eventi_Artisti_ArtistaId] FOREIGN KEY ([ArtistaId]) REFERENCES [Artisti] ([ArtistaId]) ON DELETE CASCADE
+);
+2025-12-19 18:37:20.122 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoleClaims] (
+    [Id] int NOT NULL IDENTITY,
+    [RoleId] nvarchar(450) NOT NULL,
+    [ClaimType] nvarchar(max) NULL,
+    [ClaimValue] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoleClaims] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:37:20.126 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserClaims] (
+    [Id] int NOT NULL IDENTITY,
+    [UserId] nvarchar(450) NOT NULL,
+    [ClaimType] nvarchar(max) NULL,
+    [ClaimValue] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetUserClaims] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:37:20.131 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserLogins] (
+    [LoginProvider] nvarchar(450) NOT NULL,
+    [ProviderKey] nvarchar(450) NOT NULL,
+    [ProviderDisplayName] nvarchar(max) NULL,
+    [UserId] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_AspNetUserLogins] PRIMARY KEY ([LoginProvider], [ProviderKey]),
+    CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:37:20.136 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserRoles] (
+    [UserId] nvarchar(450) NOT NULL,
+    [RoleId] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY ([UserId], [RoleId]),
+    CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:37:20.142 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserTokens] (
+    [UserId] nvarchar(450) NOT NULL,
+    [LoginProvider] nvarchar(450) NOT NULL,
+    [Name] nvarchar(450) NOT NULL,
+    [Value] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetUserTokens] PRIMARY KEY ([UserId], [LoginProvider], [Name]),
+    CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:37:20.168 +01:00 [ERR] Failed executing DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Biglietti] (
+    [IdBiglietto] int NOT NULL IDENTITY,
+    [EventoId] int NOT NULL,
+    [ArtistaId] int NOT NULL,
+    [UserId] nvarchar(450) NOT NULL,
+    [DataAcquisto] datetime2 NOT NULL,
+    CONSTRAINT [PK_Biglietti] PRIMARY KEY ([IdBiglietto]),
+    CONSTRAINT [FK_Biglietti_Artisti_ArtistaId] FOREIGN KEY ([ArtistaId]) REFERENCES [Artisti] ([ArtistaId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Biglietti_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Biglietti_Eventi_EventoId] FOREIGN KEY ([EventoId]) REFERENCES [Eventi] ([EventoId]) ON DELETE CASCADE
+);
+2025-12-19 18:38:37.253 +01:00 [INF] Starting Application
+2025-12-19 18:38:37.261 +01:00 [INF] Registering Services
+2025-12-19 18:38:45.838 +01:00 [INF] Starting Application
+2025-12-19 18:38:45.849 +01:00 [INF] Registering Services
+2025-12-19 18:38:46.487 +01:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-12-19 18:38:46.501 +01:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-12-19 18:38:46.503 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-12-19 18:38:46.504 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-12-19 18:38:46.520 +01:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-12-19 18:38:46.527 +01:00 [INF] Applying migration '20251219173837_Init Db'.
+2025-12-19 18:38:46.574 +01:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Artisti] (
+    [ArtistaId] int NOT NULL IDENTITY,
+    [Nome] nvarchar(max) NOT NULL,
+    [Genere] nvarchar(max) NOT NULL,
+    [Biografia] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_Artisti] PRIMARY KEY ([ArtistaId])
+);
+2025-12-19 18:38:46.577 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoles] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(256) NULL,
+    [NormalizedName] nvarchar(256) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+);
+2025-12-19 18:38:46.581 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUsers] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(max) NOT NULL,
+    [Surname] nvarchar(max) NOT NULL,
+    [CreateAt] datetime2 NOT NULL,
+    [IsDeleted] bit NOT NULL,
+    [Birthday] datetime2 NOT NULL,
+    [UserName] nvarchar(256) NULL,
+    [NormalizedUserName] nvarchar(256) NULL,
+    [Email] nvarchar(256) NULL,
+    [NormalizedEmail] nvarchar(256) NULL,
+    [EmailConfirmed] bit NOT NULL,
+    [PasswordHash] nvarchar(max) NULL,
+    [SecurityStamp] nvarchar(max) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    [PhoneNumber] nvarchar(max) NULL,
+    [PhoneNumberConfirmed] bit NOT NULL,
+    [TwoFactorEnabled] bit NOT NULL,
+    [LockoutEnd] datetimeoffset NULL,
+    [LockoutEnabled] bit NOT NULL,
+    [AccessFailedCount] int NOT NULL,
+    CONSTRAINT [PK_AspNetUsers] PRIMARY KEY ([Id])
+);
+2025-12-19 18:38:46.586 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Eventi] (
+    [EventoId] int NOT NULL IDENTITY,
+    [Titolo] nvarchar(max) NOT NULL,
+    [Data] datetime2 NOT NULL,
+    [Luogo] nvarchar(max) NOT NULL,
+    [ArtistaId] int NOT NULL,
+    CONSTRAINT [PK_Eventi] PRIMARY KEY ([EventoId]),
+    CONSTRAINT [FK_Eventi_Artisti_ArtistaId] FOREIGN KEY ([ArtistaId]) REFERENCES [Artisti] ([ArtistaId]) ON DELETE CASCADE
+);
+2025-12-19 18:38:46.590 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoleClaims] (
+    [Id] int NOT NULL IDENTITY,
+    [RoleId] nvarchar(450) NOT NULL,
+    [ClaimType] nvarchar(max) NULL,
+    [ClaimValue] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoleClaims] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:38:46.594 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserClaims] (
+    [Id] int NOT NULL IDENTITY,
+    [UserId] nvarchar(450) NOT NULL,
+    [ClaimType] nvarchar(max) NULL,
+    [ClaimValue] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetUserClaims] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:38:46.599 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserLogins] (
+    [LoginProvider] nvarchar(450) NOT NULL,
+    [ProviderKey] nvarchar(450) NOT NULL,
+    [ProviderDisplayName] nvarchar(max) NULL,
+    [UserId] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_AspNetUserLogins] PRIMARY KEY ([LoginProvider], [ProviderKey]),
+    CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:38:46.604 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserRoles] (
+    [UserId] nvarchar(450) NOT NULL,
+    [RoleId] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY ([UserId], [RoleId]),
+    CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:38:46.607 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserTokens] (
+    [UserId] nvarchar(450) NOT NULL,
+    [LoginProvider] nvarchar(450) NOT NULL,
+    [Name] nvarchar(450) NOT NULL,
+    [Value] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetUserTokens] PRIMARY KEY ([UserId], [LoginProvider], [Name]),
+    CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2025-12-19 18:38:46.611 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Biglietti] (
+    [IdBiglietto] int NOT NULL IDENTITY,
+    [EventoId] int NOT NULL,
+    [ArtistaId] int NOT NULL,
+    [UserId] nvarchar(450) NOT NULL,
+    [DataAcquisto] datetime2 NOT NULL,
+    CONSTRAINT [PK_Biglietti] PRIMARY KEY ([IdBiglietto]),
+    CONSTRAINT [FK_Biglietti_Artisti_ArtistaId] FOREIGN KEY ([ArtistaId]) REFERENCES [Artisti] ([ArtistaId]),
+    CONSTRAINT [FK_Biglietti_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]),
+    CONSTRAINT [FK_Biglietti_Eventi_EventoId] FOREIGN KEY ([EventoId]) REFERENCES [Eventi] ([EventoId])
+);
+2025-12-19 18:38:46.613 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AspNetRoleClaims_RoleId] ON [AspNetRoleClaims] ([RoleId]);
+2025-12-19 18:38:46.616 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [RoleNameIndex] ON [AspNetRoles] ([NormalizedName]) WHERE [NormalizedName] IS NOT NULL;
+2025-12-19 18:38:46.619 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AspNetUserClaims_UserId] ON [AspNetUserClaims] ([UserId]);
+2025-12-19 18:38:46.620 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AspNetUserLogins_UserId] ON [AspNetUserLogins] ([UserId]);
+2025-12-19 18:38:46.622 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AspNetUserRoles_RoleId] ON [AspNetUserRoles] ([RoleId]);
+2025-12-19 18:38:46.625 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [EmailIndex] ON [AspNetUsers] ([NormalizedEmail]);
+2025-12-19 18:38:46.627 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [UserNameIndex] ON [AspNetUsers] ([NormalizedUserName]) WHERE [NormalizedUserName] IS NOT NULL;
+2025-12-19 18:38:46.629 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Biglietti_ArtistaId] ON [Biglietti] ([ArtistaId]);
+2025-12-19 18:38:46.632 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Biglietti_EventoId] ON [Biglietti] ([EventoId]);
+2025-12-19 18:38:46.634 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Biglietti_UserId] ON [Biglietti] ([UserId]);
+2025-12-19 18:38:46.638 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Eventi_ArtistaId] ON [Eventi] ([ArtistaId]);
+2025-12-19 18:38:46.644 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20251219173837_Init Db', N'8.0.22');
+2025-12-19 18:39:31.367 +01:00 [INF] Starting Application
+2025-12-19 18:39:31.386 +01:00 [INF] Registering Services
+2025-12-19 18:39:32.085 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 18:39:32.359 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 18:39:32.359 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 18:39:32.403 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 18:39:32.404 +01:00 [INF] Hosting environment: Development
+2025-12-19 18:39:32.404 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 18:39:33.791 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger - null null
+2025-12-19 18:39:36.173 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger - 301 null null 2388.6272ms
+2025-12-19 18:39:36.180 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/index.html - null null
+2025-12-19 18:39:36.249 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/index.html - 200 null text/html;charset=utf-8 69.6194ms
+2025-12-19 18:39:36.273 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/swagger-ui.css - null null
+2025-12-19 18:39:36.276 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/index.css - null null
+2025-12-19 18:39:36.277 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/index.js - null null
+2025-12-19 18:39:36.277 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/swagger-ui-standalone-preset.js - null null
+2025-12-19 18:39:36.277 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/swagger-ui-bundle.js - null null
+2025-12-19 18:39:36.281 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 18:39:36.292 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/index.js - 200 null application/javascript;charset=utf-8 14.7358ms
+2025-12-19 18:39:36.317 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 18:39:36.326 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 42.0883ms
+2025-12-19 18:39:36.332 +01:00 [INF] Sending file. Request path: '/index.css'. Physical path: 'N/A'
+2025-12-19 18:39:36.333 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/index.css - 200 202 text/css 56.9892ms
+2025-12-19 18:39:36.358 +01:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2025-12-19 18:39:36.359 +01:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2025-12-19 18:39:36.362 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/swagger-ui-standalone-preset.js - 200 229223 text/javascript 84.8815ms
+2025-12-19 18:39:36.362 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/swagger-ui.css - 200 154949 text/css 88.1751ms
+2025-12-19 18:39:36.400 +01:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2025-12-19 18:39:36.400 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/swagger-ui-bundle.js - 200 1484234 text/javascript 123.6839ms
+2025-12-19 18:39:36.440 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 123.5379ms
+2025-12-19 18:39:36.649 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/favicon-32x32.png - null null
+2025-12-19 18:39:36.649 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 18:39:36.649 +01:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2025-12-19 18:39:36.649 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/favicon-32x32.png - 200 628 image/png 1.3464ms
+2025-12-19 18:39:36.669 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 21.0065ms
+2025-12-19 18:40:35.609 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/register - application/json 227
+2025-12-19 18:40:35.614 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5)'
+2025-12-19 18:40:35.632 +01:00 [INF] Route matched with {action = "Register", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(BE_U3_W3_D5.Models.Dto.RegisterRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 18:40:35.776 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5) in 140.1034ms
+2025-12-19 18:40:35.777 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5)'
+2025-12-19 18:40:35.779 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'Microsoft.AspNetCore.Identity.RoleManager`1[Microsoft.AspNetCore.Identity.IdentityRole]' while attempting to activate 'BE_U3_W3_D5.Controllers.AspNetUserController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-12-19 18:40:35.793 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/register - 500 null text/plain; charset=utf-8 185.2401ms
+2025-12-19 18:42:27.364 +01:00 [INF] Starting Application
+2025-12-19 18:42:27.379 +01:00 [INF] Registering Services
+2025-12-19 18:43:31.622 +01:00 [INF] Starting Application
+2025-12-19 18:43:31.631 +01:00 [INF] Registering Services
+2025-12-19 18:43:31.926 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 18:43:32.118 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 18:43:32.118 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 18:43:32.146 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 18:43:32.146 +01:00 [INF] Hosting environment: Development
+2025-12-19 18:43:32.146 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 18:43:33.045 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 18:43:33.045 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 18:43:33.076 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 37.6016ms
+2025-12-19 18:43:33.124 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 86.4274ms
+2025-12-19 18:43:33.177 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 18:43:33.277 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 99.7581ms
+2025-12-19 18:44:24.114 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/register - application/json 227
+2025-12-19 18:44:24.191 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5)'
+2025-12-19 18:44:24.204 +01:00 [INF] Route matched with {action = "Register", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(BE_U3_W3_D5.Models.Dto.RegisterRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 18:44:25.741 +01:00 [INF] Executed DbCommand (115ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 18:44:25.888 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (Size = 450), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (DbType = DateTime2), @p5='?' (Size = 256), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?' (DbType = Boolean), @p9='?' (DbType = DateTimeOffset), @p10='?' (Size = 4000), @p11='?' (Size = 256), @p12='?' (Size = 256), @p13='?' (Size = 4000), @p14='?' (Size = 4000), @p15='?' (DbType = Boolean), @p16='?' (Size = 4000), @p17='?' (Size = 4000), @p18='?' (DbType = Boolean), @p19='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AspNetUsers] ([Id], [AccessFailedCount], [Birthday], [ConcurrencyStamp], [CreateAt], [Email], [EmailConfirmed], [IsDeleted], [LockoutEnabled], [LockoutEnd], [Name], [NormalizedEmail], [NormalizedUserName], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [SecurityStamp], [Surname], [TwoFactorEnabled], [UserName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19);
+2025-12-19 18:44:25.906 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 18:44:25.913 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 18:44:25.930 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (Size = 450), @p1='?' (Size = 4000), @p2='?' (Size = 256), @p3='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName])
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 18:44:25.955 +01:00 [INF] Executed DbCommand (18ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2025-12-19 18:44:25.958 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2025-12-19 18:44:25.992 +01:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-12-19 18:44:26.007 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5) in 1801.2939ms
+2025-12-19 18:44:26.008 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5)'
+2025-12-19 18:44:26.015 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/register - 500 null application/problem+json; charset=utf-8 1901.6344ms
+2025-12-19 18:46:55.461 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/register - application/json 227
+2025-12-19 18:46:55.466 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5)'
+2025-12-19 18:46:55.467 +01:00 [INF] Route matched with {action = "Register", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(BE_U3_W3_D5.Models.Dto.RegisterRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 18:47:03.368 +01:00 [INF] Executed DbCommand (17ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 18:47:18.529 +01:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-12-19 18:47:18.529 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5) in 23062.7081ms
+2025-12-19 18:47:18.529 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5)'
+2025-12-19 18:47:18.530 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/register - 400 null application/problem+json; charset=utf-8 23069.6282ms
+2025-12-19 18:48:26.022 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/login - application/json 56
+2025-12-19 18:48:26.023 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 18:48:26.033 +01:00 [INF] Route matched with {action = "Login", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(BE_U3_W3_D5.Models.Dto.LoginRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 18:48:26.171 +01:00 [INF] Executed DbCommand (114ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 18:48:26.277 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE [a].[UserId] = @__user_Id_0
+2025-12-19 18:48:26.303 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 18:48:26.320 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2025-12-19 18:48:26.323 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 18:48:26.562 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Dto.LoginResponseDto'.
+2025-12-19 18:48:26.567 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5) in 533.9042ms
+2025-12-19 18:48:26.567 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 18:48:26.567 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/login - 200 null application/json; charset=utf-8 545.829ms
+2025-12-19 18:48:50.654 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/register - application/json 228
+2025-12-19 18:48:50.657 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5)'
+2025-12-19 18:48:50.657 +01:00 [INF] Route matched with {action = "Register", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(BE_U3_W3_D5.Models.Dto.RegisterRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 18:48:55.520 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 18:48:55.534 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (Size = 450), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (DbType = DateTime2), @p5='?' (Size = 256), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?' (DbType = Boolean), @p9='?' (DbType = DateTimeOffset), @p10='?' (Size = 4000), @p11='?' (Size = 256), @p12='?' (Size = 256), @p13='?' (Size = 4000), @p14='?' (Size = 4000), @p15='?' (DbType = Boolean), @p16='?' (Size = 4000), @p17='?' (Size = 4000), @p18='?' (DbType = Boolean), @p19='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AspNetUsers] ([Id], [AccessFailedCount], [Birthday], [ConcurrencyStamp], [CreateAt], [Email], [EmailConfirmed], [IsDeleted], [LockoutEnabled], [LockoutEnd], [Name], [NormalizedEmail], [NormalizedUserName], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [SecurityStamp], [Surname], [TwoFactorEnabled], [UserName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19);
+2025-12-19 18:49:08.988 +01:00 [INF] Executed DbCommand (13ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 18:49:12.516 +01:00 [INF] Executed DbCommand (12ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2025-12-19 18:49:12.521 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2025-12-19 18:50:23.480 +01:00 [INF] Starting Application
+2025-12-19 18:50:23.504 +01:00 [INF] Registering Services
+2025-12-19 18:50:23.830 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 18:50:24.022 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 18:50:24.022 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 18:50:24.069 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 18:50:24.069 +01:00 [INF] Hosting environment: Development
+2025-12-19 18:50:24.069 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 18:50:24.747 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 18:50:24.747 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 18:50:24.787 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 49.7129ms
+2025-12-19 18:50:24.843 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 104.31ms
+2025-12-19 18:50:24.966 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 18:50:25.078 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 112.4114ms
+2025-12-19 18:55:28.967 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/register - application/json 227
+2025-12-19 18:55:28.988 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5)'
+2025-12-19 18:55:29.002 +01:00 [INF] Route matched with {action = "Register", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(BE_U3_W3_D5.Models.Dto.RegisterRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 18:55:39.919 +01:00 [INF] Executed DbCommand (34ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 18:55:40.105 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?' (Size = 450), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (DbType = DateTime2), @p5='?' (Size = 256), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?' (DbType = Boolean), @p9='?' (DbType = DateTimeOffset), @p10='?' (Size = 4000), @p11='?' (Size = 256), @p12='?' (Size = 256), @p13='?' (Size = 4000), @p14='?' (Size = 4000), @p15='?' (DbType = Boolean), @p16='?' (Size = 4000), @p17='?' (Size = 4000), @p18='?' (DbType = Boolean), @p19='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AspNetUsers] ([Id], [AccessFailedCount], [Birthday], [ConcurrencyStamp], [CreateAt], [Email], [EmailConfirmed], [IsDeleted], [LockoutEnabled], [LockoutEnd], [Name], [NormalizedEmail], [NormalizedUserName], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [SecurityStamp], [Surname], [TwoFactorEnabled], [UserName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19);
+2025-12-19 18:55:47.159 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 18:55:50.660 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 18:55:50.688 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (Size = 450), @p1='?' (Size = 4000), @p2='?' (Size = 256), @p3='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName])
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 18:55:53.569 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2025-12-19 18:55:53.611 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (Size = 450), @__p_1='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[UserId], [a].[RoleId]
+FROM [AspNetUserRoles] AS [a]
+WHERE [a].[UserId] = @__p_0 AND [a].[RoleId] = @__p_1
+2025-12-19 18:55:53.614 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2025-12-19 18:55:53.625 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 18:55:53.663 +01:00 [INF] Executed DbCommand (19ms) [Parameters=[@p0='?' (Size = 450), @p1='?' (Size = 450), @p21='?' (Size = 450), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (Size = 4000), @p22='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (Size = 256), @p7='?' (DbType = Boolean), @p8='?' (DbType = Boolean), @p9='?' (DbType = Boolean), @p10='?' (DbType = DateTimeOffset), @p11='?' (Size = 4000), @p12='?' (Size = 256), @p13='?' (Size = 256), @p14='?' (Size = 4000), @p15='?' (Size = 4000), @p16='?' (DbType = Boolean), @p17='?' (Size = 4000), @p18='?' (Size = 4000), @p19='?' (DbType = Boolean), @p20='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [AspNetUserRoles] ([RoleId], [UserId])
+VALUES (@p0, @p1);
+UPDATE [AspNetUsers] SET [AccessFailedCount] = @p2, [Birthday] = @p3, [ConcurrencyStamp] = @p4, [CreateAt] = @p5, [Email] = @p6, [EmailConfirmed] = @p7, [IsDeleted] = @p8, [LockoutEnabled] = @p9, [LockoutEnd] = @p10, [Name] = @p11, [NormalizedEmail] = @p12, [NormalizedUserName] = @p13, [PasswordHash] = @p14, [PhoneNumber] = @p15, [PhoneNumberConfirmed] = @p16, [SecurityStamp] = @p17, [Surname] = @p18, [TwoFactorEnabled] = @p19, [UserName] = @p20
+OUTPUT 1
+WHERE [Id] = @p21 AND [ConcurrencyStamp] = @p22;
+2025-12-19 18:55:55.608 +01:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2025-12-19 18:55:55.611 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5) in 26605.8403ms
+2025-12-19 18:55:55.611 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Register (BE-U3-W3-D5)'
+2025-12-19 18:55:55.617 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/register - 200 0 null 26649.6482ms
+2025-12-19 18:56:25.876 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/login - application/json 56
+2025-12-19 18:56:25.880 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 18:56:25.884 +01:00 [INF] Route matched with {action = "Login", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(BE_U3_W3_D5.Models.Dto.LoginRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 18:56:25.932 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 18:56:26.012 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE [a].[UserId] = @__user_Id_0
+2025-12-19 18:56:26.039 +01:00 [INF] Executed DbCommand (11ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 18:56:26.044 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 18:56:26.051 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE [a].[RoleId] = @__role_Id_0
+2025-12-19 18:56:26.060 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2025-12-19 18:56:26.063 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 18:56:26.081 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Dto.LoginResponseDto'.
+2025-12-19 18:56:26.083 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5) in 198.8494ms
+2025-12-19 18:56:26.083 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 18:56:26.083 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/login - 200 null application/json; charset=utf-8 207.5892ms
+2025-12-19 19:00:34.097 +01:00 [INF] Starting Application
+2025-12-19 19:00:34.110 +01:00 [INF] Registering Services
+2025-12-19 19:00:34.436 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 19:00:34.603 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 19:00:34.604 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 19:00:34.637 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 19:00:34.637 +01:00 [INF] Hosting environment: Development
+2025-12-19 19:00:34.638 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 19:00:35.707 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 19:00:35.707 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 19:00:35.749 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 48.1528ms
+2025-12-19 19:00:35.818 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 118.516ms
+2025-12-19 19:00:35.902 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 19:00:36.028 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 126.068ms
+2025-12-19 19:00:55.934 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/login - application/json 56
+2025-12-19 19:00:55.957 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 19:00:55.968 +01:00 [INF] Route matched with {action = "Login", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(BE_U3_W3_D5.Models.Dto.LoginRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 19:00:57.025 +01:00 [INF] Executed DbCommand (45ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 19:00:57.203 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE [a].[UserId] = @__user_Id_0
+2025-12-19 19:00:57.222 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 19:00:57.230 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 19:00:57.242 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE [a].[RoleId] = @__role_Id_0
+2025-12-19 19:00:57.251 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2025-12-19 19:00:57.254 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 19:00:57.273 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Dto.LoginResponseDto'.
+2025-12-19 19:00:57.279 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5) in 1308.6033ms
+2025-12-19 19:00:57.280 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 19:00:57.285 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/login - 200 null application/json; charset=utf-8 1351.2258ms
+2025-12-19 19:03:48.172 +01:00 [INF] Starting Application
+2025-12-19 19:03:48.183 +01:00 [INF] Registering Services
+2025-12-19 19:03:48.460 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 19:03:48.600 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 19:03:48.600 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 19:03:48.630 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 19:03:48.630 +01:00 [INF] Hosting environment: Development
+2025-12-19 19:03:48.630 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 19:03:49.725 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 19:03:49.725 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 19:03:49.766 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 47.3887ms
+2025-12-19 19:03:49.809 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 92.7922ms
+2025-12-19 19:03:49.872 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 19:03:49.962 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 89.8364ms
+2025-12-19 19:04:18.856 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/login - application/json 56
+2025-12-19 19:04:18.877 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 19:04:18.890 +01:00 [INF] Route matched with {action = "Login", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(BE_U3_W3_D5.Models.Dto.LoginRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 19:04:19.865 +01:00 [INF] Executed DbCommand (38ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 19:04:20.032 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE [a].[UserId] = @__user_Id_0
+2025-12-19 19:04:20.052 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 19:04:20.060 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 19:04:20.074 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE [a].[RoleId] = @__role_Id_0
+2025-12-19 19:04:20.084 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2025-12-19 19:04:20.088 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 19:04:20.107 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Dto.LoginResponseDto'.
+2025-12-19 19:04:20.115 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5) in 1222.6155ms
+2025-12-19 19:04:20.115 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 19:04:20.120 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/login - 200 null application/json; charset=utf-8 1264.1741ms
+2025-12-19 19:06:59.273 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Artista/artist - application/json 341
+2025-12-19 19:06:59.281 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.ArtistaController.CreateArtist (BE-U3-W3-D5)'
+2025-12-19 19:06:59.284 +01:00 [INF] Route matched with {action = "CreateArtist", controller = "Artista"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateArtist(BE_U3_W3_D5.Models.Entities.Artista) on controller BE_U3_W3_D5.Controllers.ArtistaController (BE-U3-W3-D5).
+2025-12-19 19:06:59.298 +01:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-12-19 19:06:59.312 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.ArtistaController.CreateArtist (BE-U3-W3-D5) in 27.8412ms
+2025-12-19 19:06:59.312 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.ArtistaController.CreateArtist (BE-U3-W3-D5)'
+2025-12-19 19:06:59.313 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Artista/artist - 400 null application/problem+json; charset=utf-8 39.9568ms
+2025-12-19 19:11:19.961 +01:00 [INF] Starting Application
+2025-12-19 19:11:19.970 +01:00 [INF] Registering Services
+2025-12-19 19:11:38.175 +01:00 [INF] Starting Application
+2025-12-19 19:11:38.182 +01:00 [INF] Registering Services
+2025-12-19 19:11:38.794 +01:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-12-19 19:11:38.809 +01:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-12-19 19:11:38.811 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-12-19 19:11:38.812 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-12-19 19:11:38.825 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-12-19 19:11:38.832 +01:00 [INF] Applying migration '20251219181120_Set Bigle'.
+2025-12-19 19:11:38.862 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20251219181120_Set Bigle', N'8.0.22');
+2025-12-19 19:11:46.998 +01:00 [INF] Starting Application
+2025-12-19 19:11:47.012 +01:00 [INF] Registering Services
+2025-12-19 19:11:47.459 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 19:11:47.639 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 19:11:47.639 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 19:11:47.668 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 19:11:47.668 +01:00 [INF] Hosting environment: Development
+2025-12-19 19:11:47.669 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 19:11:48.910 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 19:11:48.910 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 19:11:48.956 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 56.3796ms
+2025-12-19 19:11:49.022 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 124.1339ms
+2025-12-19 19:11:49.116 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 19:11:49.285 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 168.5496ms
+2025-12-19 19:12:35.870 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Artista/artist - application/json 346
+2025-12-19 19:12:35.899 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.ArtistaController.CreateArtist (BE-U3-W3-D5)'
+2025-12-19 19:12:35.918 +01:00 [INF] Route matched with {action = "CreateArtist", controller = "Artista"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateArtist(BE_U3_W3_D5.Models.Entities.Artista) on controller BE_U3_W3_D5.Controllers.ArtistaController (BE-U3-W3-D5).
+2025-12-19 19:12:36.854 +01:00 [INF] Executed DbCommand (47ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Artisti] ([Biografia], [Genere], [Nome])
+OUTPUT INSERTED.[ArtistaId]
+VALUES (@p0, @p1, @p2);
+2025-12-19 19:12:36.890 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Artista'.
+2025-12-19 19:12:36.896 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.ArtistaController.CreateArtist (BE-U3-W3-D5) in 975.0501ms
+2025-12-19 19:12:36.897 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.ArtistaController.CreateArtist (BE-U3-W3-D5)'
+2025-12-19 19:12:36.902 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Artista/artist - 200 null application/json; charset=utf-8 1032.1906ms
+2025-12-19 19:12:56.948 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Artista/artists - null null
+2025-12-19 19:12:56.953 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.ArtistaController.GetArtists (BE-U3-W3-D5)'
+2025-12-19 19:12:56.958 +01:00 [INF] Route matched with {action = "GetArtists", controller = "Artista"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetArtists() on controller BE_U3_W3_D5.Controllers.ArtistaController (BE-U3-W3-D5).
+2025-12-19 19:12:57.161 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ArtistaId], [a].[Biografia], [a].[Genere], [a].[Nome]
+FROM [Artisti] AS [a]
+2025-12-19 19:12:57.169 +01:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[BE_U3_W3_D5.Models.Entities.Artista, BE-U3-W3-D5, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-19 19:12:57.171 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.ArtistaController.GetArtists (BE-U3-W3-D5) in 212.4897ms
+2025-12-19 19:12:57.171 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.ArtistaController.GetArtists (BE-U3-W3-D5)'
+2025-12-19 19:12:57.171 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Artista/artists - 200 null application/json; charset=utf-8 223.7657ms
+2025-12-19 19:14:09.449 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Evento/event - application/json 141
+2025-12-19 19:14:09.481 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5)'
+2025-12-19 19:14:09.487 +01:00 [INF] Route matched with {action = "CreateEvent", controller = "Evento"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateEvent(BE_U3_W3_D5.Models.Entities.Evento) on controller BE_U3_W3_D5.Controllers.EventoController (BE-U3-W3-D5).
+2025-12-19 19:14:09.495 +01:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-12-19 19:14:09.504 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5) in 17.8086ms
+2025-12-19 19:14:09.505 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5)'
+2025-12-19 19:14:09.505 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Evento/event - 400 null application/problem+json; charset=utf-8 57.3888ms
+2025-12-19 19:15:09.909 +01:00 [INF] Starting Application
+2025-12-19 19:15:09.919 +01:00 [INF] Registering Services
+2025-12-19 19:15:10.300 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 19:15:10.470 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 19:15:10.470 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 19:15:10.499 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 19:15:10.500 +01:00 [INF] Hosting environment: Development
+2025-12-19 19:15:10.500 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 19:15:11.418 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 19:15:11.418 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 19:15:11.475 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 63.5278ms
+2025-12-19 19:15:11.540 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 131.7521ms
+2025-12-19 19:15:11.614 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 19:15:11.736 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 121.4039ms
+2025-12-19 19:16:32.419 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Evento/event - application/json 120
+2025-12-19 19:16:32.447 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5)'
+2025-12-19 19:16:32.465 +01:00 [INF] Route matched with {action = "CreateEvent", controller = "Evento"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateEvent(BE_U3_W3_D5.Models.Entities.Evento) on controller BE_U3_W3_D5.Controllers.EventoController (BE-U3-W3-D5).
+2025-12-19 19:16:32.624 +01:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-12-19 19:16:32.642 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5) in 173.0965ms
+2025-12-19 19:16:32.643 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5)'
+2025-12-19 19:16:32.645 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Evento/event - 400 null application/problem+json; charset=utf-8 225.8303ms
+2025-12-19 19:31:58.688 +01:00 [INF] Starting Application
+2025-12-19 19:31:58.699 +01:00 [INF] Registering Services
+2025-12-19 19:31:58.970 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 19:31:59.169 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 19:31:59.169 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 19:31:59.204 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 19:31:59.204 +01:00 [INF] Hosting environment: Development
+2025-12-19 19:31:59.204 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 19:31:59.700 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 19:31:59.700 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 19:31:59.736 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 41.048ms
+2025-12-19 19:31:59.770 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 77.1239ms
+2025-12-19 19:31:59.810 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 19:31:59.894 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 84.2014ms
+2025-12-19 19:32:41.309 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Evento/event - application/json 103
+2025-12-19 19:32:41.336 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5)'
+2025-12-19 19:32:41.358 +01:00 [INF] Route matched with {action = "CreateEvent", controller = "Evento"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateEvent(BE_U3_W3_D5.Models.Dto.CreateEventoDto) on controller BE_U3_W3_D5.Controllers.EventoController (BE-U3-W3-D5).
+2025-12-19 19:32:42.734 +01:00 [INF] Executed DbCommand (65ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Eventi] ([ArtistaId], [Data], [Luogo], [Titolo])
+OUTPUT INSERTED.[EventoId]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:32:42.780 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Evento'.
+2025-12-19 19:32:42.796 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5) in 1434.9327ms
+2025-12-19 19:32:42.796 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5)'
+2025-12-19 19:32:42.803 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Evento/event - 200 null application/json; charset=utf-8 1494.2944ms
+2025-12-19 19:32:56.475 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Evento/events - null null
+2025-12-19 19:32:56.482 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.EventoController.GetEvents (BE-U3-W3-D5)'
+2025-12-19 19:32:56.486 +01:00 [INF] Route matched with {action = "GetEvents", controller = "Evento"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetEvents() on controller BE_U3_W3_D5.Controllers.EventoController (BE-U3-W3-D5).
+2025-12-19 19:32:56.680 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [e].[EventoId], [e].[ArtistaId], [e].[Data], [e].[Luogo], [e].[Titolo]
+FROM [Eventi] AS [e]
+2025-12-19 19:32:56.689 +01:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[BE_U3_W3_D5.Models.Entities.Evento, BE-U3-W3-D5, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-19 19:32:56.690 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.EventoController.GetEvents (BE-U3-W3-D5) in 203.9035ms
+2025-12-19 19:32:56.691 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.EventoController.GetEvents (BE-U3-W3-D5)'
+2025-12-19 19:32:56.691 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Evento/events - 200 null application/json; charset=utf-8 216.0292ms
+2025-12-19 19:34:05.333 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:34:05.333 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:34:05.336 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:34:05.369 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:34:05.372 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:34:05.373 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 37.2985ms
+2025-12-19 19:34:05.373 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:34:05.373 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 40.7585ms
+2025-12-19 19:35:44.472 +01:00 [INF] Request starting HTTP/2 PUT https://localhost:7103/api/Biglietto/ticket/1 - application/json 135
+2025-12-19 19:35:44.509 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.UpdateTicket (BE-U3-W3-D5)'
+2025-12-19 19:35:44.517 +01:00 [INF] Route matched with {action = "UpdateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UpdateTicket(Int32, BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:35:44.697 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[IdBiglietto], [b].[ArtistaId], [b].[DataAcquisto], [b].[EventoId], [b].[UserId]
+FROM [Biglietti] AS [b]
+WHERE [b].[IdBiglietto] = @__p_0
+2025-12-19 19:35:44.720 +01:00 [INF] Executed DbCommand (8ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [Biglietti] SET [DataAcquisto] = @p0
+OUTPUT 1
+WHERE [IdBiglietto] = @p1;
+2025-12-19 19:35:44.723 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:35:44.723 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.UpdateTicket (BE-U3-W3-D5) in 206.2902ms
+2025-12-19 19:35:44.723 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.UpdateTicket (BE-U3-W3-D5)'
+2025-12-19 19:35:44.724 +01:00 [INF] Request finished HTTP/2 PUT https://localhost:7103/api/Biglietto/ticket/1 - 200 null application/json; charset=utf-8 252.1132ms
+2025-12-19 19:37:38.272 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Evento/event - application/json 107
+2025-12-19 19:37:38.277 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5)'
+2025-12-19 19:37:38.278 +01:00 [INF] Route matched with {action = "CreateEvent", controller = "Evento"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateEvent(BE_U3_W3_D5.Models.Dto.CreateEventoDto) on controller BE_U3_W3_D5.Controllers.EventoController (BE-U3-W3-D5).
+2025-12-19 19:37:38.288 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Eventi] ([ArtistaId], [Data], [Luogo], [Titolo])
+OUTPUT INSERTED.[EventoId]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:37:38.289 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Evento'.
+2025-12-19 19:37:38.289 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5) in 10.4909ms
+2025-12-19 19:37:38.289 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5)'
+2025-12-19 19:37:38.289 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Evento/event - 200 null application/json; charset=utf-8 18.0406ms
+2025-12-19 19:37:52.303 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Evento/event - application/json 106
+2025-12-19 19:37:52.304 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5)'
+2025-12-19 19:37:52.304 +01:00 [INF] Route matched with {action = "CreateEvent", controller = "Evento"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateEvent(BE_U3_W3_D5.Models.Dto.CreateEventoDto) on controller BE_U3_W3_D5.Controllers.EventoController (BE-U3-W3-D5).
+2025-12-19 19:37:52.312 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Eventi] ([ArtistaId], [Data], [Luogo], [Titolo])
+OUTPUT INSERTED.[EventoId]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:37:52.313 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Evento'.
+2025-12-19 19:37:52.313 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5) in 8.9255ms
+2025-12-19 19:37:52.313 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.EventoController.CreateEvent (BE-U3-W3-D5)'
+2025-12-19 19:37:52.313 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Evento/event - 200 null application/json; charset=utf-8 10.2867ms
+2025-12-19 19:38:49.237 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:49.240 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:49.243 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:49.258 +01:00 [INF] Executed DbCommand (8ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:49.258 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:49.258 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 15.4246ms
+2025-12-19 19:38:49.258 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:49.259 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 21.7906ms
+2025-12-19 19:38:52.587 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:52.587 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:52.587 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:52.593 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:52.594 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:52.594 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 6.6434ms
+2025-12-19 19:38:52.594 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:52.594 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 7.6285ms
+2025-12-19 19:38:52.999 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:53.000 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.000 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:53.006 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:53.007 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:53.007 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 7.5418ms
+2025-12-19 19:38:53.008 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.008 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 8.897ms
+2025-12-19 19:38:53.250 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:53.251 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.251 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:53.255 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:53.257 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:53.257 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 5.6669ms
+2025-12-19 19:38:53.257 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.257 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 7.3181ms
+2025-12-19 19:38:53.443 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:53.443 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.443 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:53.447 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:53.448 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:53.448 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 5.0726ms
+2025-12-19 19:38:53.448 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.449 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 6.8837ms
+2025-12-19 19:38:53.597 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:53.597 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.597 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:53.601 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:53.602 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:53.602 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 4.9636ms
+2025-12-19 19:38:53.603 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.603 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 6.0141ms
+2025-12-19 19:38:53.731 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:53.731 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.732 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:53.742 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:53.742 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:53.742 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 10.4899ms
+2025-12-19 19:38:53.742 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.742 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 11.4958ms
+2025-12-19 19:38:53.862 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:53.862 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.863 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:53.868 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:53.868 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:53.868 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 5.7552ms
+2025-12-19 19:38:53.869 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:53.869 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 7.0824ms
+2025-12-19 19:38:54.004 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:54.004 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:54.004 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:54.008 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:54.009 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:54.009 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 4.3418ms
+2025-12-19 19:38:54.009 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:54.009 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 5.3192ms
+2025-12-19 19:38:54.176 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:54.176 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:54.176 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:54.180 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:54.181 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:54.181 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 5.0286ms
+2025-12-19 19:38:54.181 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:54.182 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 6.0522ms
+2025-12-19 19:38:54.278 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:54.278 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:54.278 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:54.283 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:54.285 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:54.285 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 6.3441ms
+2025-12-19 19:38:54.285 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:54.285 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 7.6218ms
+2025-12-19 19:38:54.419 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:38:54.419 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:54.419 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:38:54.423 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:38:54.424 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:38:54.424 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 5.0557ms
+2025-12-19 19:38:54.424 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:38:54.424 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 6.116ms
+2025-12-19 19:39:10.690 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:10.690 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:10.690 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:10.698 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:10.699 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:10.699 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 8.3631ms
+2025-12-19 19:39:10.699 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:10.699 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 9.418ms
+2025-12-19 19:39:10.866 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:10.866 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:10.866 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:10.873 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:10.874 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:10.875 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 8.1214ms
+2025-12-19 19:39:10.875 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:10.875 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 9.2834ms
+2025-12-19 19:39:11.010 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:11.010 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:11.010 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:11.014 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:11.014 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:11.015 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 4.0891ms
+2025-12-19 19:39:11.015 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:11.015 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 5.3225ms
+2025-12-19 19:39:11.145 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:11.146 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:11.146 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:11.149 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:11.150 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:11.150 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 4.4157ms
+2025-12-19 19:39:11.150 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:11.150 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 5.2507ms
+2025-12-19 19:39:11.271 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:11.271 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:11.271 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:11.279 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:11.279 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:11.280 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 8.0686ms
+2025-12-19 19:39:11.280 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:11.280 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 9.5407ms
+2025-12-19 19:39:11.536 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:11.537 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:11.537 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:11.546 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:11.546 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:11.547 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 9.6885ms
+2025-12-19 19:39:11.547 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:11.547 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 10.6505ms
+2025-12-19 19:39:16.219 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:16.219 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:16.219 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:16.225 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:16.225 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:16.226 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 6.234ms
+2025-12-19 19:39:16.226 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:16.226 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 7.1496ms
+2025-12-19 19:39:16.360 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:16.360 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:16.360 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:16.364 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:16.364 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:16.364 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 3.8965ms
+2025-12-19 19:39:16.365 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:16.365 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 4.6536ms
+2025-12-19 19:39:16.526 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:16.527 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:16.527 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:16.533 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:16.534 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:16.534 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 7.5312ms
+2025-12-19 19:39:16.534 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:16.535 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 8.8251ms
+2025-12-19 19:39:16.665 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:16.665 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:16.665 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:16.671 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:16.672 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:16.672 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 7.1301ms
+2025-12-19 19:39:16.672 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:16.673 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 7.8628ms
+2025-12-19 19:39:17.083 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:17.084 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:17.084 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:17.088 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:17.088 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:17.089 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 4.8071ms
+2025-12-19 19:39:17.089 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:17.089 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 6.1787ms
+2025-12-19 19:39:17.225 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 135
+2025-12-19 19:39:17.225 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:17.225 +01:00 [INF] Route matched with {action = "CreateTicket", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateTicket(BE_U3_W3_D5.Models.Dto.CreateBigliettoDto) on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 19:39:17.231 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Biglietti] ([ArtistaId], [DataAcquisto], [EventoId], [UserId])
+OUTPUT INSERTED.[IdBiglietto]
+VALUES (@p0, @p1, @p2, @p3);
+2025-12-19 19:39:17.231 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Entities.Biglietto'.
+2025-12-19 19:39:17.231 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5) in 6.209ms
+2025-12-19 19:39:17.231 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.CreateTicket (BE-U3-W3-D5)'
+2025-12-19 19:39:17.232 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 200 null application/json; charset=utf-8 7.2947ms
+2025-12-19 19:43:46.666 +01:00 [INF] Starting Application
+2025-12-19 19:43:46.681 +01:00 [INF] Registering Services
+2025-12-19 19:43:46.999 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 19:43:47.141 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 19:43:47.141 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 19:43:47.169 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 19:43:47.169 +01:00 [INF] Hosting environment: Development
+2025-12-19 19:43:47.169 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 19:43:48.174 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 19:43:48.174 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 19:43:48.199 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 34.331ms
+2025-12-19 19:43:48.244 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 79.4943ms
+2025-12-19 19:43:48.288 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 19:43:48.377 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 89.7718ms
+2025-12-19 19:44:04.931 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 105
+2025-12-19 19:44:04.953 +01:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin|User)
+2025-12-19 19:44:04.957 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-12-19 19:44:04.958 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 401 0 null 26.6418ms
+2025-12-19 19:44:42.502 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/login - application/json 56
+2025-12-19 19:44:42.511 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 19:44:42.531 +01:00 [INF] Route matched with {action = "Login", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(BE_U3_W3_D5.Models.Dto.LoginRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 19:44:44.146 +01:00 [INF] Executed DbCommand (48ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 19:44:44.415 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE [a].[UserId] = @__user_Id_0
+2025-12-19 19:44:44.440 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 19:44:44.450 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 19:44:44.470 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE [a].[RoleId] = @__role_Id_0
+2025-12-19 19:44:44.486 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2025-12-19 19:44:44.495 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 19:44:44.526 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Dto.LoginResponseDto'.
+2025-12-19 19:44:44.538 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5) in 2002.1656ms
+2025-12-19 19:44:44.538 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 19:44:44.546 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/login - 200 null application/json; charset=utf-8 2044.5342ms
+2025-12-19 19:44:51.827 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - application/json 105
+2025-12-19 19:44:51.830 +01:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin|User)
+2025-12-19 19:44:51.830 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-12-19 19:44:51.830 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Biglietto/ticket - 401 0 null 3.4308ms
+2025-12-19 19:47:40.842 +01:00 [INF] Starting Application
+2025-12-19 19:47:40.852 +01:00 [INF] Registering Services
+2025-12-19 19:47:41.161 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 19:47:41.309 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 19:47:41.309 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 19:47:41.341 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 19:47:41.341 +01:00 [INF] Hosting environment: Development
+2025-12-19 19:47:41.341 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 19:47:42.183 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 19:47:42.183 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 19:47:42.218 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 41.8574ms
+2025-12-19 19:47:42.296 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 116.559ms
+2025-12-19 19:47:42.391 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 19:47:42.495 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 103.8215ms
+2025-12-19 19:47:55.638 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Artista/artists - null null
+2025-12-19 19:47:55.649 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.ArtistaController.GetArtists (BE-U3-W3-D5)'
+2025-12-19 19:47:55.664 +01:00 [INF] Route matched with {action = "GetArtists", controller = "Artista"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetArtists() on controller BE_U3_W3_D5.Controllers.ArtistaController (BE-U3-W3-D5).
+2025-12-19 19:47:56.638 +01:00 [INF] Executed DbCommand (24ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ArtistaId], [a].[Biografia], [a].[Genere], [a].[Nome]
+FROM [Artisti] AS [a]
+2025-12-19 19:47:56.661 +01:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[BE_U3_W3_D5.Models.Entities.Artista, BE-U3-W3-D5, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-19 19:47:56.676 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.ArtistaController.GetArtists (BE-U3-W3-D5) in 1009.0639ms
+2025-12-19 19:47:56.676 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.ArtistaController.GetArtists (BE-U3-W3-D5)'
+2025-12-19 19:47:56.682 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Artista/artists - 200 null application/json; charset=utf-8 1044.1297ms
+2025-12-19 19:48:17.766 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - null null
+2025-12-19 19:48:17.776 +01:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2025-12-19 19:48:17.779 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-12-19 19:48:17.780 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - 401 0 null 13.7322ms
+2025-12-19 19:48:32.387 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/login - application/json 56
+2025-12-19 19:48:32.388 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 19:48:32.400 +01:00 [INF] Route matched with {action = "Login", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(BE_U3_W3_D5.Models.Dto.LoginRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 19:48:32.553 +01:00 [INF] Executed DbCommand (26ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 19:48:32.746 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE [a].[UserId] = @__user_Id_0
+2025-12-19 19:48:32.775 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 19:48:32.789 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 19:48:32.810 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE [a].[RoleId] = @__role_Id_0
+2025-12-19 19:48:32.823 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2025-12-19 19:48:32.832 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 19:48:32.859 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Dto.LoginResponseDto'.
+2025-12-19 19:48:32.862 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5) in 461.7354ms
+2025-12-19 19:48:32.862 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 19:48:32.862 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/login - 200 null application/json; charset=utf-8 474.8645ms
+2025-12-19 19:49:00.064 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - null null
+2025-12-19 19:49:00.084 +01:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+ ---> System.ArgumentException: IDX14102: Unable to decode the header '[PII of type 'Microsoft.IdentityModel.Logging.SecurityArtifact' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]' as Base64Url encoded string.
+ ---> System.ArgumentOutOfRangeException: Specified argument was out of the range of valid values. (Parameter 'IDX10820: Invalid character found in Base64UrlEncoding. Character: '32', Encoding: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.')
+   at Microsoft.IdentityModel.Tokens.Base64UrlEncoding.Decode(String input, Int32 offset, Int32 length, Byte[] output)
+   at Microsoft.IdentityModel.Tokens.Base64UrlEncoding.Decode[T](String input, Int32 offset, Int32 length, Func`3 action)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.CreateClaimSet(String rawString, Int32 startIndex, Int32 length, Func`3 action)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(String encodedJson)
+   --- End of inner exception stack trace ---
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(String encodedJson)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken..ctor(String jwtEncodedString)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ReadToken(String token, TokenValidationParameters validationParameters)
+   --- End of inner exception stack trace ---
+2025-12-19 19:49:00.096 +01:00 [INF] Bearer was not authenticated. Failure message: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+2025-12-19 19:49:00.098 +01:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2025-12-19 19:49:00.099 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-12-19 19:49:00.099 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - 401 0 null 37.0508ms
+2025-12-19 19:49:19.237 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - null null
+2025-12-19 19:49:19.274 +01:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2025-12-19 19:49:19.275 +01:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2025-12-19 19:49:19.275 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - 403 0 null 39.312ms
+2025-12-19 19:56:47.174 +01:00 [INF] Starting Application
+2025-12-19 19:56:47.188 +01:00 [INF] Registering Services
+2025-12-19 19:56:47.500 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 19:56:47.649 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 19:56:47.650 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 19:56:47.682 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 19:56:47.682 +01:00 [INF] Hosting environment: Development
+2025-12-19 19:56:47.682 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 19:56:48.519 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 19:56:48.519 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 19:56:48.554 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 45.0532ms
+2025-12-19 19:56:48.623 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 115.0872ms
+2025-12-19 19:56:48.699 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 19:56:48.761 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 62.3804ms
+2025-12-19 19:57:23.469 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/login - application/json 56
+2025-12-19 19:57:23.532 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 19:57:23.552 +01:00 [INF] Route matched with {action = "Login", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(BE_U3_W3_D5.Models.Dto.LoginRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 19:57:24.810 +01:00 [INF] Executed DbCommand (44ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 19:57:24.971 +01:00 [INF] Executed DbCommand (11ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE [a].[UserId] = @__user_Id_0
+2025-12-19 19:57:24.993 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 19:57:25.003 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 19:57:25.015 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE [a].[RoleId] = @__role_Id_0
+2025-12-19 19:57:25.024 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2025-12-19 19:57:25.031 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 19:57:25.062 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Dto.LoginResponseDto'.
+2025-12-19 19:57:25.070 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5) in 1515.212ms
+2025-12-19 19:57:25.070 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 19:57:25.077 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/login - 200 null application/json; charset=utf-8 1608.5249ms
+2025-12-19 19:57:42.460 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - null null
+2025-12-19 19:57:42.508 +01:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2025-12-19 19:57:42.510 +01:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2025-12-19 19:57:42.510 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - 403 0 null 50.1591ms
+2025-12-19 19:58:15.778 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/Evento/event - application/json 101
+2025-12-19 19:58:15.783 +01:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2025-12-19 19:58:15.784 +01:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2025-12-19 19:58:15.784 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/Evento/event - 403 0 null 6.3039ms
+2025-12-19 20:01:34.497 +01:00 [INF] Starting Application
+2025-12-19 20:01:34.508 +01:00 [INF] Registering Services
+2025-12-19 20:01:34.823 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 20:01:34.987 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 20:01:34.987 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 20:01:35.014 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 20:01:35.014 +01:00 [INF] Hosting environment: Development
+2025-12-19 20:01:35.014 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 20:01:35.633 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 20:01:35.633 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 20:01:35.686 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 60.1763ms
+2025-12-19 20:01:35.743 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 119.8263ms
+2025-12-19 20:01:35.835 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 20:01:35.897 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 62.7862ms
+2025-12-19 20:01:56.085 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/login - application/json 56
+2025-12-19 20:01:56.154 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 20:01:56.171 +01:00 [INF] Route matched with {action = "Login", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(BE_U3_W3_D5.Models.Dto.LoginRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 20:01:57.367 +01:00 [INF] Executed DbCommand (41ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 20:01:57.524 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE [a].[UserId] = @__user_Id_0
+2025-12-19 20:01:57.543 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 20:01:57.551 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 20:01:57.565 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE [a].[RoleId] = @__role_Id_0
+2025-12-19 20:01:57.574 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2025-12-19 20:01:57.587 +01:00 [INF] Executed DbCommand (10ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 20:01:57.609 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Dto.LoginResponseDto'.
+2025-12-19 20:01:57.618 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5) in 1442.7894ms
+2025-12-19 20:01:57.618 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 20:01:57.627 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/login - 200 null application/json; charset=utf-8 1542.688ms
+2025-12-19 20:02:11.820 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - null null
+2025-12-19 20:02:11.859 +01:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2025-12-19 20:02:11.860 +01:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2025-12-19 20:02:11.861 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - 403 0 null 40.6478ms
+2025-12-19 20:02:31.385 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - null null
+2025-12-19 20:02:31.393 +01:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+ ---> System.ArgumentException: IDX14102: Unable to decode the header '[PII of type 'Microsoft.IdentityModel.Logging.SecurityArtifact' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]' as Base64Url encoded string.
+ ---> System.ArgumentOutOfRangeException: Specified argument was out of the range of valid values. (Parameter 'IDX10820: Invalid character found in Base64UrlEncoding. Character: '32', Encoding: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.')
+   at Microsoft.IdentityModel.Tokens.Base64UrlEncoding.Decode(String input, Int32 offset, Int32 length, Byte[] output)
+   at Microsoft.IdentityModel.Tokens.Base64UrlEncoding.Decode[T](String input, Int32 offset, Int32 length, Func`3 action)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.CreateClaimSet(String rawString, Int32 startIndex, Int32 length, Func`3 action)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(String encodedJson)
+   --- End of inner exception stack trace ---
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(String encodedJson)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken..ctor(String jwtEncodedString)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ReadToken(String token, TokenValidationParameters validationParameters)
+   --- End of inner exception stack trace ---
+2025-12-19 20:02:31.401 +01:00 [INF] Bearer was not authenticated. Failure message: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+2025-12-19 20:02:31.402 +01:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2025-12-19 20:02:31.406 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-12-19 20:02:31.406 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - 401 0 null 21.7224ms
+2025-12-19 20:02:44.365 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - null null
+2025-12-19 20:02:44.373 +01:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenSignatureKeyNotFoundException: IDX10503: Signature validation failed. Token does not have a kid. Keys tried: '[PII of type 'System.Text.StringBuilder' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'. Number of keys in TokenValidationParameters: '1'. 
+Number of keys in Configuration: '0'. 
+Exceptions caught:
+ '[PII of type 'System.Text.StringBuilder' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+token: '[PII of type 'Microsoft.IdentityModel.JsonWebTokens.JsonWebToken' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'. See https://aka.ms/IDX10503 for details.
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateSignature(JsonWebToken jwtToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateSignatureAndIssuerSecurityKey(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-12-19 20:02:44.373 +01:00 [INF] Bearer was not authenticated. Failure message: IDX10503: Signature validation failed. Token does not have a kid. Keys tried: '[PII of type 'System.Text.StringBuilder' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'. Number of keys in TokenValidationParameters: '1'. 
+Number of keys in Configuration: '0'. 
+Exceptions caught:
+ '[PII of type 'System.Text.StringBuilder' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+token: '[PII of type 'Microsoft.IdentityModel.JsonWebTokens.JsonWebToken' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'. See https://aka.ms/IDX10503 for details.
+2025-12-19 20:02:44.374 +01:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2025-12-19 20:02:44.374 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-12-19 20:02:44.374 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - 401 0 null 9.3343ms
+2025-12-19 20:02:58.116 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - null null
+2025-12-19 20:02:58.117 +01:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2025-12-19 20:02:58.117 +01:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2025-12-19 20:02:58.118 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - 403 0 null 2.2988ms
+2025-12-19 20:04:13.255 +01:00 [INF] Starting Application
+2025-12-19 20:04:13.265 +01:00 [INF] Registering Services
+2025-12-19 20:04:13.569 +01:00 [INF] User profile is available. Using 'C:\Users\franc\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-19 20:04:13.712 +01:00 [INF] Now listening on: https://localhost:7103
+2025-12-19 20:04:13.712 +01:00 [INF] Now listening on: http://localhost:5215
+2025-12-19 20:04:13.739 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-19 20:04:13.739 +01:00 [INF] Hosting environment: Development
+2025-12-19 20:04:13.740 +01:00 [INF] Content root path: C:\Users\franc\Desktop\BE-U3-W3-D5\BE-U3-W3-D5
+2025-12-19 20:04:14.598 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-19 20:04:14.598 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/_vs/browserLink - null null
+2025-12-19 20:04:14.632 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_framework/aspnetcore-browser-refresh.js - 200 16507 application/javascript; charset=utf-8 45.6407ms
+2025-12-19 20:04:14.681 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/_vs/browserLink - 200 null text/javascript; charset=UTF-8 95.3142ms
+2025-12-19 20:04:14.736 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - null null
+2025-12-19 20:04:14.788 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 52.1932ms
+2025-12-19 20:04:38.893 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/login - application/json 56
+2025-12-19 20:04:38.958 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 20:04:38.978 +01:00 [INF] Route matched with {action = "Login", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(BE_U3_W3_D5.Models.Dto.LoginRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 20:04:40.064 +01:00 [INF] Executed DbCommand (42ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 20:04:40.204 +01:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-12-19 20:04:40.222 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5) in 1240.9131ms
+2025-12-19 20:04:40.223 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 20:04:40.231 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/login - 400 null application/problem+json; charset=utf-8 1338.1329ms
+2025-12-19 20:04:54.008 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7103/api/AspNetUser/login - application/json 56
+2025-12-19 20:04:54.011 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 20:04:54.011 +01:00 [INF] Route matched with {action = "Login", controller = "AspNetUser"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(BE_U3_W3_D5.Models.Dto.LoginRequestDto) on controller BE_U3_W3_D5.Controllers.AspNetUserController (BE-U3-W3-D5).
+2025-12-19 20:04:54.076 +01:00 [INF] Executed DbCommand (11ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Birthday], [a].[ConcurrencyStamp], [a].[CreateAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[Surname], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-19 20:04:54.192 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE [a].[UserId] = @__user_Id_0
+2025-12-19 20:04:54.220 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 20:04:54.232 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-19 20:04:54.252 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE [a].[RoleId] = @__role_Id_0
+2025-12-19 20:04:54.266 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2025-12-19 20:04:54.272 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-19 20:04:54.300 +01:00 [INF] Executing OkObjectResult, writing value of type 'BE_U3_W3_D5.Models.Dto.LoginResponseDto'.
+2025-12-19 20:04:54.305 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5) in 293.8273ms
+2025-12-19 20:04:54.306 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.AspNetUserController.Login (BE-U3-W3-D5)'
+2025-12-19 20:04:54.306 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7103/api/AspNetUser/login - 200 null application/json; charset=utf-8 298.3732ms
+2025-12-19 20:05:12.390 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - null null
+2025-12-19 20:05:12.426 +01:00 [INF] Executing endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.GetTickets (BE-U3-W3-D5)'
+2025-12-19 20:05:12.428 +01:00 [INF] Route matched with {action = "GetTickets", controller = "Biglietto"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetTickets() on controller BE_U3_W3_D5.Controllers.BigliettoController (BE-U3-W3-D5).
+2025-12-19 20:05:12.446 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [b].[IdBiglietto], [b].[ArtistaId], [b].[DataAcquisto], [b].[EventoId], [b].[UserId]
+FROM [Biglietti] AS [b]
+2025-12-19 20:05:12.447 +01:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[BE_U3_W3_D5.Models.Entities.Biglietto, BE-U3-W3-D5, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-19 20:05:12.456 +01:00 [INF] Executed action BE_U3_W3_D5.Controllers.BigliettoController.GetTickets (BE-U3-W3-D5) in 27.744ms
+2025-12-19 20:05:12.456 +01:00 [INF] Executed endpoint 'BE_U3_W3_D5.Controllers.BigliettoController.GetTickets (BE-U3-W3-D5)'
+2025-12-19 20:05:12.456 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7103/api/Biglietto/tickets - 200 null application/json; charset=utf-8 66.1389ms
